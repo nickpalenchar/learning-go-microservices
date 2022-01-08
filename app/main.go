@@ -1,13 +1,13 @@
 package main
 
 import (
-	"net/http"
-	"log"
-	"./handlers"
-	"os"
+	"coffee/app/handlers"
 	"context"
-	"time"
+	"log"
+	"net/http"
+	"os"
 	"os/signal"
+	"time"
 )
 
 func main() {
@@ -21,12 +21,11 @@ func main() {
 	sm.Handle("/", ph) // products
 	sm.Handle("/goodbye", gh)
 
-
 	s := &http.Server{
-		Addr: ":9090",
-		Handler: sm,
-		IdleTimeout: 120*time.Second,
-		ReadTimeout: 1*time.Second,
+		Addr:        ":9090",
+		Handler:     sm,
+		IdleTimeout: 120 * time.Second,
+		ReadTimeout: 1 * time.Second,
 	}
 
 	go func() {
@@ -40,7 +39,7 @@ func main() {
 	signal.Notify(sigChan, os.Interrupt)
 	signal.Notify(sigChan, os.Kill)
 
-	sig := <- sigChan
+	sig := <-sigChan
 	l.Println("Recieved terminate, graceful shutdown", sig)
 	s.ListenAndServe()
 
