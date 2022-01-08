@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 )
 
-
-
 type Product struct {
 	ID int `json:"id"` // see **struct tags** in notes
 	Name string `json:"name"`
@@ -17,6 +15,11 @@ type Product struct {
 	CreatedOn string `json:"-"`
 	UpdatedOn string `json:"-"`
 	DeletedOn string `json:"-"`
+}
+
+func (p *Product) FromJSON(r io.Reader) error {
+	e := json.NewDecoder(r)
+	return e.Decode(p)
 }
 
 type Products []*Product
